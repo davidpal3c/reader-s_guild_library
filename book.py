@@ -8,8 +8,8 @@ class Book:
         self.__isbn = isbn
         self.__title = title
         self.__author = author
-        self.__genre = int(genre)
-        self.__availablitiy = bool(availability)
+        self.__genre = genre
+        self.__availability = bool(availability)
 
 
     def get_isbn(self):
@@ -25,13 +25,7 @@ class Book:
         return self.__genre
     
     def get_availability(self):
-        # if availability == True:
-        #     self.__availablitiy = "Available"
-        #     return self.__availablitiy
-        # else:
-        #     self.__availablitiy = "Borrowed"
-        #     return self.__availablitiy       
-        return self.__availablitiy
+        return "Available" if self.__availability else "Borrowed"
 
     def set_isbn(self, isbn):
         self.__isbn = isbn
@@ -47,11 +41,11 @@ class Book:
   
 
     def borrow_it(self):
-        return self
+        pass
     
     def return_it(self):
         pass
 
 
     def __str__(self):
-        return f"{self.get_isbn()} {self.get_title()} {self.get_author()} {self.get_genre_name()}"  # {self.get_availability(book[4])
+        return "{:15s} {:26s} {:29s} {:<19} {:<20}".format(self.get_isbn(), self.get_title(), self.get_author(), self.get_genre_name(), self.get_availability())  

@@ -52,7 +52,7 @@ def main():
 
     # Lastly, print report of all books (using implicit call to __str__())
     print("\n*** Test 3/Final Output ***")
-    print("{:14s} {:25s} {:25s} {:20s} {:s}".format("ISBN", "Title",
+    print("{:15s} {:26s} {:27s} {:21s} {:s}".format("ISBN", "Title",
         "Author", "Genre", "Availability"))
     for b in book_list:
         print(b)
