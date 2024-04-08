@@ -1,9 +1,9 @@
 
-.gitignore generator
-Create useful .gitignore files for your project
-
 # Course files
 *.docx
+
+# Ignore test_book.py file
+test_book.py
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
