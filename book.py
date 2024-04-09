@@ -55,14 +55,21 @@ class Book:
   
 
     def borrow_it(self):
-        pass
-    
+        if self.__availability: 
+            self.__availability = False
+        else: 
+            print(f"Book not available")
+
+
     def return_it(self):
-        pass
+        if not self.__availability:
+            self.__availability = True
+        else:
+            print(f"Book ")
 
 
     def __str__(self):
-        return "{:15s} {:26s} {:29s} {:<19} {:<20}".format(
+        return "{:15s} {:26s} {:27s} {:<21} {:<20}".format(
             self.get_isbn(),
             self.get_title(),
             self.get_author(),
