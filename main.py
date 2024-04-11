@@ -1,5 +1,6 @@
-
-
+import os
+import csv
+from book import Book
 
 
 
@@ -93,12 +94,6 @@ def search_books():
 
 
 
-def load_books():
-    pass
-# •	Receives an empty list and pathname to an existing CSV file
-# •	Iterates over each line (i.e. book) in the file, parsing the attribute values into separate variables
-# •	Creates Book objects from each set of attributes and adds them one-by-one onto the list
-# •	Returns the number of books loaded
 
 
 
@@ -110,22 +105,72 @@ def print_menu():
 # •	Returns user’s valid selection
 
 
+def load_books(books_lib_path, books_lst):
+    
+    with open(books_lib_path, 'r') as file:
+        csv_reader = csv.reader(file)
+        
+        bCount = 0
+        for line in csv_reader:
+            isbn = line[0]
+            title = line[1]
+            author = line[2]
+            genre = int(line[3])
+            availability = line[4]
+
+            book = Book(isbn, title, author, genre, availability)
+
+            books_lst.append(book)
+
+            bCount += 1
+
+        for book in books_lst:
+            print(book)
+
+            
+        return bCount
+
+
+# •	Receives an empty list and pathname to an existing CSV file
+# •	Iterates over each line (i.e. book) in the file, parsing the attribute values into separate variables
+# •	Creates Book objects from each set of attributes and adds them one-by-one onto the list
+# •	Returns the number of books loaded
+
 
 
 
 def main(): 
-    pass
+
+    print("Starting the system...")
+
+    input_path = input("Enter book catalog filename: ")
+    books_lib_path = os.path.join(os.getcwd(), input_path)
+    
+    if not os.path.exists(books_lib_path):
+        print(f"{input_path} does not exists - Exiting.")
+        return
+    
+    books_lst = []
+    book_count = load_books(books_lib_path, books_lst)
+
+    print(f"Total books loaded: {book_count}")
+    print('Book catalog has been loaded')
+
 
 
 # •	Entry point for the Library Management System
 # •	Coordinates the overall processing:
 # o	Set up a list of books
-# o	Input pathname of CSV data file from user and call load_books() to populate the list of books
-# o	Present the menu, get and evaluate user’s selection, repeating until user chooses to quit:
+# o	Input pathname of CSV data file from user and call 
+# load_books() to populate the list of books
+# o	Present the menu, get and evaluate user’s selection,
+#  repeating until user chooses to quit:
 # 	Get additional user inputs as needed
-# 	Call appropriate functions to help perform the actions for each menu option
+# 	Call appropriate functions to help perform the actions
+#  for each menu option
 # 	Display relevant context/status messages
-# o	Call save_books() to save list of Books to file before ending the program
+# o	Call save_books() to save list of Books to file before
+#  ending the program
 
 
 if __name__ == "__main__":

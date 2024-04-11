@@ -19,7 +19,7 @@ class Book:
         self.__isbn = isbn
         self.__title = title
         self.__author = author
-        self.__genre = genre_id
+        self.__genre = int(genre_id)
         self.__availability = bool(availability)
 
 
@@ -36,7 +36,10 @@ class Book:
         for key, val in Book.GENRE.items():
             if key == self.__genre:
                 return val
-    
+
+    def str_to_bool(self):
+        return self.__availability.lower() == "true"
+
 
     def get_availability(self):
         return "Available" if self.__availability else "Borrowed"
@@ -77,6 +80,8 @@ class Book:
             self.get_availability()
         )  
     
+    
+
 
 genre1 = Book("978-0060513030", "Where the Sidewalk Ends", "Shel Silverstein", 9, False)
 print(genre1.get_genre_name())
