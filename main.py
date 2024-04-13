@@ -97,8 +97,13 @@ def search_books():
 
 
 
-def print_menu():
+def print_menu(menu_options, heading):
     pass
+
+
+
+
+
 # •	Receives menu heading (string) and menu options (dict)
 # •	Displays the heading and menu options passed in
 # •	Inputs selection from user until valid selection is entered
@@ -118,17 +123,20 @@ def load_books(books_lib_path, books_lst):
             genre = int(line[3])
             availability = line[4]
 
+            # generates book object with indexed values of each line as its attributes
             book = Book(isbn, title, author, genre, availability)
 
+            # adds book(s) object to books list 
             books_lst.append(book)
 
             bCount += 1
 
-        for book in books_lst:
-            print(book)
 
-            
-        return bCount
+        return books_lst
+
+        # for book in books_lst:
+        #     print(book)
+        # return bCount
 
 
 # •	Receives an empty list and pathname to an existing CSV file
@@ -141,7 +149,7 @@ def load_books(books_lib_path, books_lst):
 
 def main(): 
 
-    print("Starting the system...")
+    print("Starting Library Management System...")
 
     input_path = input("Enter book catalog filename: ")
     books_lib_path = os.path.join(os.getcwd(), input_path)
@@ -150,19 +158,29 @@ def main():
         print(f"{input_path} does not exists - Exiting.")
         return
     
-    books_lst = []
-    book_count = load_books(books_lib_path, books_lst)
+    else: 
+        books_lst = []
+        load_books(books_lib_path, books_lst)
 
-    print(f"Total books loaded: {book_count}")
+        heading = "Reader's Guild Library - Main Menu"
+        menu_options = {}
+
+        while True:
+            print_menu(heading, menu_options)
+
+
+
+        
+
+
+    # book_count = load_books(books_lib_path, books_lst)
+    # print(f"Total books loaded: {book_count}")
+    
     print('Book catalog has been loaded')
 
 
 
-# •	Entry point for the Library Management System
-# •	Coordinates the overall processing:
-# o	Set up a list of books
-# o	Input pathname of CSV data file from user and call 
-# load_books() to populate the list of books
+
 # o	Present the menu, get and evaluate user’s selection,
 #  repeating until user chooses to quit:
 # 	Get additional user inputs as needed

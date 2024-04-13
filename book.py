@@ -79,9 +79,7 @@ class Book:
             self.get_genre_name(),
             self.get_availability()
         )  
-    
-    
 
-
-genre1 = Book("978-0060513030", "Where the Sidewalk Ends", "Shel Silverstein", 9, False)
-print(genre1.get_genre_name())
+# CLASS TEST
+# genre1 = Book("978-0060513030", "Where the Sidewalk Ends", "Shel Silverstein", 9, False)
+# print(genre1.get_genre_name())
