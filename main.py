@@ -98,7 +98,7 @@ def search_books():
 
 
 def print_menu(menu_options, heading):
-    pass
+    print(heading)
 
 
 
@@ -161,12 +161,13 @@ def main():
     else: 
         books_lst = []
         load_books(books_lib_path, books_lst)
+        print('Book catalog has been loaded')
 
         heading = "Reader's Guild Library - Main Menu"
-        menu_options = {}
+        menu_options = {1: ". Search for books", 2: ". Borrow a book", 3: ". Return a book", 0: ". Exit yhe system"}
 
-        while True:
-            print_menu(heading, menu_options)
+        # while True: 
+        print_menu(menu_options, heading)
 
 
 
@@ -176,7 +177,7 @@ def main():
     # book_count = load_books(books_lib_path, books_lst)
     # print(f"Total books loaded: {book_count}")
     
-    print('Book catalog has been loaded')
+    
 
 
 
