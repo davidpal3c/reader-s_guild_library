@@ -47,12 +47,6 @@ def remove_book():
 
 
 
-def print_books():
-    pass
-
-# (menu option 6, 1)
-# •	Receives a book list
-# •	Displays a book information heading, then iterates through the book list displaying each Book object on a separate line
 
 
 
@@ -79,15 +73,41 @@ def borrow_book():
 # Otherwise displays an appropriate message.
 
 
+def print_books(search_lst):
+    
+    if search_lst:
+        print("Matching Books:")
+    else:
+        print("No books found matching the search criteria.")
+        return
 
-def search_books():
-    pass
-# (menu option 1)
-# •	Before calling this function, input search string from user
-# •	Receives a book list and a search string
+    for book in search_lst:
+        print(f"ISBN: {book.get_isbn()}, Title: {book.get_title()}, Author: {book.get_author()}\n")
+    
+# (menu option 6, 1)
+# •	Receives a book list
+# •	Displays a book information heading, then iterates through the book list displaying each Book object on a separate line
+
+
+
+
+def search_books(books_lst, search_str):
+    
+    # search = [book for book in books_lst if Book.get_title(search_str)]
+
+    search_lst = []
+    for book in books_lst:
+        if book.match_search(search_str):
+            search_lst.append(book)
+
+    print_books(search_lst)
+
+    
+
 # •	Iterates through the list of books and checks if the search string 
 # appears in isbn, title, author, or genre name. If any match is found, 
 # the book is added to the search result list.
+
 # •	Returns search result list
 # •	After calling this function, call print_books() passing to it the 
 # search result list
@@ -95,16 +115,13 @@ def search_books():
 
 
 
-
-
 def print_menu(menu_options, heading):
+    
     print(heading)
+    print(f"{"="*34}")
+    for key, val in menu_options.items():
+        print(key, val)
 
-
-
-
-
-# •	Receives menu heading (string) and menu options (dict)
 # •	Displays the heading and menu options passed in
 # •	Inputs selection from user until valid selection is entered
 # •	Returns user’s valid selection
@@ -131,21 +148,19 @@ def load_books(books_lib_path, books_lst):
 
             bCount += 1
 
-
+        print(f"\nBook catalog has been loaded \n(Number of books loaded {bCount})\n")
         return books_lst
 
         # for book in books_lst:
         #     print(book)
-        # return bCount
-
+        
 
 # •	Receives an empty list and pathname to an existing CSV file
-# •	Iterates over each line (i.e. book) in the file, parsing the attribute values into separate variables
-# •	Creates Book objects from each set of attributes and adds them one-by-one onto the list
+# •	Iterates over each line (i.e. book) in the file, parsing the
+#  attribute values into separate variables
+# •	Creates Book objects from each set of attributes and adds them
+#  one-by-one onto the list
 # •	Returns the number of books loaded
-
-
-
 
 def main(): 
 
@@ -161,19 +176,33 @@ def main():
     else: 
         books_lst = []
         load_books(books_lib_path, books_lst)
-        print('Book catalog has been loaded')
-
+        
         heading = "Reader's Guild Library - Main Menu"
-        menu_options = {1: ". Search for books", 2: ". Borrow a book", 3: ". Return a book", 0: ". Exit yhe system"}
+        menu_options = {"1.": "Search for books", "2.": "Borrow a book", "3.": "Return a book", "0.": "Exit the system"}
 
-        # while True: 
-        print_menu(menu_options, heading)
+        while True: 
+            
+            print_menu(menu_options, heading)
+            
 
+            user_selection = input("Enter your selection: ").strip()
+
+            match user_selection: 
+                case '1': 
+                    print("-- Search for books --")
+                    search_str = input("Enter search value: ")
+                    search_books(books_lst, search_str)
+
+                case '0':
+                    exit()
+
+                case _:
+                    print("invalid input")
 
 
         
 
-
+        
     # book_count = load_books(books_lib_path, books_lst)
     # print(f"Total books loaded: {book_count}")
     

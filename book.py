@@ -42,7 +42,9 @@ class Book:
 
 
     def get_availability(self):
-        return "Available" if self.__availability else "Borrowed"
+        # return "Available" if self.__availability else "Borrowed"
+        return self.__availability 
+
 
     def set_isbn(self, isbn):
         self.__isbn = isbn
@@ -69,6 +71,17 @@ class Book:
             self.__availability = True
         else:
             print(f"Book ")
+
+
+    def match_search(self, search_str):
+        search_lower = search_str.lower()
+
+        if (search_lower in self.__isbn.lower() or
+            search_lower in self.__title.lower() or
+            search_lower in self.__author.lower()):
+            return True
+        
+        return False
 
 
     def __str__(self):
