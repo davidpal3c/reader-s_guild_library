@@ -4,13 +4,6 @@ from book import Book
 
 
 
-def find_book_by_isbn():
-    pass
-
-# •	Receives a book list and an ISBN
-# •	Iterates through the list of books and compares the ISBN parameter to each book’s isbn. Iteration stops when an exact match is found or when the end of the list is reached.
-# •	Returns the index of the matching book or -1 if none found
-
 
 
 
@@ -58,15 +51,36 @@ def save_books():
 # •	Returns the number of books saved to the file
 
 
-def borrow_book():
-    pass
+def find_book_by_isbn(books_lst, isbn_srch):
+    
+    for index, book in enumerate(books_lst):
+        if book.get_isbn() == isbn_srch:
+            return index
+        
+    return -1 
 
-# (menu option 2)
-# •	Receives a book list
-# •	Inputs an ISBN from the user and calls find_book_by_isbn()
-# •	If an index to a matching book was returned and that book 
-# is currently available, invokes the book’s borrow_it() method. 
-# Otherwise displays an appropriate message.
+
+def borrow_book(books_lst):
+    isbn_srch = input("Enter the 13-digit ISBN (format 999-9999999999): ")
+
+    # passes list of books and searc criteria to find_book_by_isbn(), and assigns returned index to variable
+    foundB_index = find_book_by_isbn(books_lst, isbn_srch)
+    
+    if foundB_index == -1:
+        print(f"{isbn_srch} not found in Database")
+        return
+
+    # Stores Book by index into variable
+    foundBook = books_lst[foundB_index]
+
+    # Checks availability and calls borrow_it() if available
+    if foundBook.get_availability() == "Available":
+        foundBook.borrow_it()
+        print(f"{foundBook.get_title()} with ISBN {foundBook.get_isbn()} successfully borrowed.")
+
+    else: 
+        print(f"{foundBook.get_title()} with ISBN {foundBook.get_isbn()} is not currently available.")
+
 
 
 def print_books(search_lst):
@@ -165,6 +179,10 @@ def main():
                     print("-- Search for books --")
                     search_str = input("Enter search value: ")
                     search_books(books_lst, search_str)
+
+                case '2':
+                    print("-- Borrow a book --")
+                    borrow_book(books_lst)
 
                 case '0':
                     exit()
