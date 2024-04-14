@@ -20,7 +20,12 @@ class Book:
         self.__title = title
         self.__author = author
         self.__genre = int(genre_id)
-        self.__availability = bool(availability)
+        
+        # Checks if value passed as attribute is boolean and converts it if it isn't
+        if isinstance(availability, bool):
+            self.__availability = availability
+        else:
+            self.__availability = availability.lower() == "true"
 
 
     def get_isbn(self):
@@ -36,14 +41,15 @@ class Book:
         for key, val in Book.GENRE.items():
             if key == self.__genre:
                 return val
+            # else:
+            #     return "Unknown Genre"
 
-    def str_to_bool(self):
-        return self.__availability.lower() == "true"
+    # def str_to_bool(self):
+    #     return self.__availability.lower() == "true"
 
 
     def get_availability(self):
-        # return "Available" if self.__availability else "Borrowed"
-        return self.__availability 
+        return "Available" if self.__availability else "Borrowed"
 
 
     def set_isbn(self, isbn):
@@ -68,20 +74,29 @@ class Book:
 
     def return_it(self):
         if not self.__availability:
-            self.__availability = True
-        else:
-            print(f"Book ")
+            self.__availability = "True"
+        # else:
+        #     self.__availability = "False"
 
 
+    # search method: includes search for title, author, and genre attributes" 
     def match_search(self, search_str):
-        search_lower = search_str.lower()
+        search_lower = search_str.lower()       
+        
 
         if (search_lower in self.__isbn.lower() or
             search_lower in self.__title.lower() or
             search_lower in self.__author.lower()):
             return True
         
+
+        for key, val in Book.GENRE.items():
+            if search_lower in val.lower():
+                if key == self.__genre:
+                    return True
+        
         return False
+
 
 
     def __str__(self):
@@ -93,6 +108,6 @@ class Book:
             self.get_availability()
         )  
 
-# CLASS TEST
+# # CLASS TEST
 # genre1 = Book("978-0060513030", "Where the Sidewalk Ends", "Shel Silverstein", 9, False)
 # print(genre1.get_genre_name())

@@ -48,8 +48,6 @@ def remove_book():
 
 
 
-
-
 def save_books():
     pass
 
@@ -58,8 +56,6 @@ def save_books():
 # containing each book’s attribute values
 # •	Writes each string as a separate line to the file
 # •	Returns the number of books saved to the file
-
-
 
 
 def borrow_book():
@@ -75,26 +71,24 @@ def borrow_book():
 
 def print_books(search_lst):
     
-    if search_lst:
-        print("Matching Books:")
-    else:
+    if not search_lst:
         print("No books found matching the search criteria.")
         return
+    
+
+    print("{:15s} {:26s} {:27s} {:21s} {:s}".format("ISBN", "Title",
+    "Author", "Genre", "Availability"))
+    print("{:15s} {:26s} {:27s} {:21s} {:s}".format("-"*15,"-"*26, "-"*27, "-"*21, "-"*12))
 
     for book in search_lst:
-        print(f"ISBN: {book.get_isbn()}, Title: {book.get_title()}, Author: {book.get_author()}\n")
-    
-# (menu option 6, 1)
-# •	Receives a book list
-# •	Displays a book information heading, then iterates through the book list displaying each Book object on a separate line
-
+        book_str = str(book)
+        print(book_str)
+        print()
 
 
 
 def search_books(books_lst, search_str):
     
-    # search = [book for book in books_lst if Book.get_title(search_str)]
-
     search_lst = []
     for book in books_lst:
         if book.match_search(search_str):
@@ -104,17 +98,6 @@ def search_books(books_lst, search_str):
 
     
 
-# •	Iterates through the list of books and checks if the search string 
-# appears in isbn, title, author, or genre name. If any match is found, 
-# the book is added to the search result list.
-
-# •	Returns search result list
-# •	After calling this function, call print_books() passing to it the 
-# search result list
-
-
-
-
 def print_menu(menu_options, heading):
     
     print(heading)
@@ -122,9 +105,6 @@ def print_menu(menu_options, heading):
     for key, val in menu_options.items():
         print(key, val)
 
-# •	Displays the heading and menu options passed in
-# •	Inputs selection from user until valid selection is entered
-# •	Returns user’s valid selection
 
 
 def load_books(books_lib_path, books_lst):
@@ -154,13 +134,6 @@ def load_books(books_lib_path, books_lst):
         # for book in books_lst:
         #     print(book)
         
-
-# •	Receives an empty list and pathname to an existing CSV file
-# •	Iterates over each line (i.e. book) in the file, parsing the
-#  attribute values into separate variables
-# •	Creates Book objects from each set of attributes and adds them
-#  one-by-one onto the list
-# •	Returns the number of books loaded
 
 def main(): 
 
@@ -200,25 +173,15 @@ def main():
                     print("invalid input")
 
 
-        
+
+    # o	Call save_books() to save list of Books to file before
+    #  ending the program
 
         
     # book_count = load_books(books_lib_path, books_lst)
     # print(f"Total books loaded: {book_count}")
     
     
-
-
-
-
-# o	Present the menu, get and evaluate user’s selection,
-#  repeating until user chooses to quit:
-# 	Get additional user inputs as needed
-# 	Call appropriate functions to help perform the actions
-#  for each menu option
-# 	Display relevant context/status messages
-# o	Call save_books() to save list of Books to file before
-#  ending the program
 
 
 if __name__ == "__main__":
