@@ -165,7 +165,13 @@ def main():
         load_books(books_lib_path, books_lst)
         
         heading = "Reader's Guild Library - Main Menu"
-        menu_options = {"1.": "Search for books", "2.": "Borrow a book", "3.": "Return a book", "0.": "Exit the system"}
+        menu_options = {"1.": "Search for books", 
+                        "2.": "Borrow a book",
+                        "3.": "Return a book", 
+                        "4.": "Add a book", 
+                        "5.": "Remove a book", 
+                        "6.": "Print catalog", 
+                        "0.": "Exit the system"}
 
         while True: 
             
@@ -183,6 +189,13 @@ def main():
                 case '2':
                     print("-- Borrow a book --")
                     borrow_book(books_lst)
+
+
+                case '6':
+                    print("-- Pring book catalog --")
+                    search_lst = books_lst
+                    print_books(search_lst)
+
 
                 case '0':
                     exit()

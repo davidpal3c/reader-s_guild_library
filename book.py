@@ -83,20 +83,17 @@ class Book:
     def match_search(self, search_str):
         search_lower = search_str.lower()       
         
-
         if (search_lower in self.__isbn.lower() or
             search_lower in self.__title.lower() or
             search_lower in self.__author.lower()):
             return True
         
-
         for key, val in Book.GENRE.items():
             if search_lower in val.lower():
                 if key == self.__genre:
                     return True
         
         return False
-
 
 
     def __str__(self):
