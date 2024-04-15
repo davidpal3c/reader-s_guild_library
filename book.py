@@ -68,15 +68,15 @@ class Book:
     def borrow_it(self):
         if self.__availability: 
             self.__availability = False
-        else: 
-            print(f"Book not available")
+        # else: 
+        #     print(f"Book not available")
 
 
     def return_it(self):
         if not self.__availability:
-            self.__availability = "True"
+            self.__availability = True
         # else:
-        #     self.__availability = "False"
+        #     self.__availability = False
 
 
     # search method: includes search for title, author, and genre attributes" 

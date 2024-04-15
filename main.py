@@ -6,17 +6,6 @@ from book import Book
 
 
 
-
-def return_book():
-    pass
-
-# (menu option 3)
-# •	Receives a book list
-# •	Inputs an ISBN from the user and calls find_book_by_isbn()
-# •	If an index to a matching book was returned and that book is currently borrowed, invokes the book’s return_it() method. Otherwise displays an appropriate message.
-
-
-
 def add_book():
     pass
 
@@ -41,7 +30,7 @@ def remove_book():
 
 
 
-def save_books():
+def save_books(books_lst):
     pass
 
 # •	Receives a book list and pathname to a CSV file
@@ -49,6 +38,29 @@ def save_books():
 # containing each book’s attribute values
 # •	Writes each string as a separate line to the file
 # •	Returns the number of books saved to the file
+
+
+
+
+def return_book(books_lst):
+        
+    isbn_srch = input("Enter the 13-digit ISBN (format 999-9999999999): ")
+
+    foundB_index = find_book_by_isbn(books_lst, isbn_srch)
+    
+    if foundB_index == -1:
+        print(f"No book found with isbn: {isbn_srch}")
+        return
+
+    foundBook = books_lst[foundB_index]
+
+    if foundBook.get_availability() == "Borrowed":
+        foundBook.return_it()
+        print(f"{foundBook.get_title()} with ISBN {isbn_srch} was successfully returned")
+
+    else:
+        print(f"{foundBook.get_title()} with ISBN {isbn_srch} hasn't been borrowed!")
+
 
 
 def find_book_by_isbn(books_lst, isbn_srch):
@@ -67,7 +79,7 @@ def borrow_book(books_lst):
     foundB_index = find_book_by_isbn(books_lst, isbn_srch)
     
     if foundB_index == -1:
-        print(f"{isbn_srch} not found in Database")
+        print(f"No book found with isbn: {isbn_srch}")
         return
 
     # Stores Book by index into variable
@@ -190,6 +202,10 @@ def main():
                     print("-- Borrow a book --")
                     borrow_book(books_lst)
 
+                case '3':
+                    print("-- Return Book --")
+                    return_book(books_lst)
+
 
                 case '6':
                     print("-- Pring book catalog --")
@@ -198,11 +214,11 @@ def main():
 
 
                 case '0':
+                    save_books(books_lst)
                     exit()
 
                 case _:
-                    print("invalid input")
-
+                    print("Invalid option")
 
 
     # o	Call save_books() to save list of Books to file before
