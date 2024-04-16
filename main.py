@@ -161,12 +161,21 @@ def search_books(books_lst, search_str):
 
     
 # Displays main menu 
-def print_menu(menu_options, heading):
+def print_menu(main_menu, heading, l_menu, l_heading, admin):
+            
+    if admin:  
+        print(f"\n{l_heading}")
+        print(f"{"="*34}")
+        for key, val in l_menu.items():
+            print(key, val)
     
-    print(heading)
-    print(f"{"="*34}")
-    for key, val in menu_options.items():
-        print(key, val)
+    else:
+        print(f"\n{heading}")
+        print(f"{"="*34}")
+        for key, val in main_menu.items():
+            print(key, val)
+
+
 
 
 # Loads books from file into list
@@ -191,7 +200,7 @@ def load_books(books_lib_path, books_lst):
 
             bCount += 1
 
-        print(f"\nBook catalog has been loaded \n(Number of books loaded {bCount})\n")
+        print(f"\nBook catalog has been loaded \n(Number of books loaded {bCount})")
         return books_lst
 
         
@@ -213,11 +222,19 @@ def main():
     books_lst = []
     load_books(books_lib_path, books_lst)
 
+    admin = False
 
     while True: 
         
         heading = "Reader's Guild Library - Main Menu"
-        menu_options = {"1.": "Search for books", 
+        main_menu = {"1.": "Search for books", 
+                        "2.": "Borrow a book",
+                        "3.": "Return a book", 
+                        "0.": "Exit the system"}
+
+
+        l_heading = "Reader's Guild Library - Librarian Menu"
+        l_menu = {"1.": "Search for books", 
                         "2.": "Borrow a book",
                         "3.": "Return a book", 
                         "4.": "Add a book", 
@@ -225,9 +242,10 @@ def main():
                         "6.": "Print catalog", 
                         "0.": "Exit the system"}
         
-        print_menu(menu_options, heading)
+        print_menu(main_menu, heading, l_menu, l_heading, admin)
         
         user_selection = input("Enter your selection: ").strip()
+
 
         match user_selection: 
             case '1': 
@@ -238,6 +256,10 @@ def main():
             case '2':
                 print("-- Borrow a book --")
                 borrow_book(books_lst)
+
+            case '2130':
+                admin = True
+                print_menu(main_menu, heading, l_menu, l_heading, admin)
 
             case '3':
                 print("-- Return Book --")
