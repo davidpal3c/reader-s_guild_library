@@ -6,6 +6,31 @@ from book import Book
 
 
 
+# Adds a book to list, validates genre input
+def add_book(books_lst, books_lib_path):
+    
+    isbn = input("Enter the 13-digit ISBN (format 999-9999999999): ").strip()
+    title = input("Enter title: ")
+    author = input("Enter author name: ")
+    genre = input("Enter genre: ")
+    availability = True
+
+    validator = Book(isbn, title, author, genre, availability)
+
+    while True: 
+
+        if validator.validate_genre(genre) == True:
+            genre = input("Invalid genre. Choices are: \nRomance, Mystery, Science Fiction, Thriller, \nYoung Adult, Children's Fiction, Self-help,\nFantasy, Historical Fiction, Poetry \nEnter genre: ")
+        
+        else: 
+            print(f"'{validator.get_title()}' with ISBN {validator.get_isbn()} successfully added.\
+                  {validator.get_genre()} {validator.get_availability()}")
+            break
+        
+    books_lst.append(validator)
+
+    save_books(books_lst, books_lib_path)
+
 
 # Saves changes to file
 def save_books(books_lst, books_lib_path):
