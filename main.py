@@ -4,6 +4,26 @@ from book import Book
 
 
 
+# Removes book from books_list 
+def remove_book(books_lst, books_lib_path):
+    isbn_srch = input("Enter the 13-digit ISBN (format 999-9999999999): ").strip()
+
+    foundB_index = find_book_by_isbn(books_lst, isbn_srch)
+    foundBook = books_lst[foundB_index]
+
+    if foundB_index == -1:
+        print(f"No book found with isbn: {isbn_srch}")
+        return
+    
+    elif foundBook.get_availability() != "Available":
+        print(f"'{foundBook.get_title()}' with ISBN {foundBook.get_isbn()} has been borrowed and needs to be returned first.")
+    
+    else: 
+        
+        books_lst.pop(foundB_index)
+        print(f"'{foundBook.get_title()}' with ISBN {foundBook.get_isbn()} successfully removed.")
+
+    save_books(books_lst, books_lib_path)
 
 
 # Adds a book to list, validates genre input
