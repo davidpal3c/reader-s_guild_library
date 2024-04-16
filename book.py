@@ -19,7 +19,7 @@ class Book:
         self.__isbn = isbn
         self.__title = title
         self.__author = author
-        self.__genre = int(genre_id)
+        self.__genre = genre_id
         
         # Checks if value passed as attribute is boolean and converts it if it isn't
         if isinstance(availability, bool):
@@ -37,6 +37,9 @@ class Book:
     def get_author(self):
         return self.__author
     
+    def get_genre(self):
+        return self.__genre
+
     def get_genre_name(self):
         for key, val in Book.GENRE.items():
             if key == self.__genre:
@@ -47,6 +50,8 @@ class Book:
     # def str_to_bool(self):
     #     return self.__availability.lower() == "true"
 
+    def get_avail(self):
+        return self.__availability
 
     def get_availability(self):
         return "Available" if self.__availability else "Borrowed"
@@ -62,8 +67,11 @@ class Book:
         self.__author = author
 
     def set_genre(self, genre_id):
-        self.__genre = genre_id
+        self.__genre = int(genre_id)
   
+    def set_availability(self, availability):
+        self.__availability = availability
+
 
     def borrow_it(self):
         if self.__availability: 
@@ -94,6 +102,17 @@ class Book:
                     return True
         
         return False
+    
+
+    def validate_genre(self, genre):
+        if genre not in Book.GENRE.values():
+            return True
+        else: 
+            for key, val in Book.GENRE.items():
+                if genre == val:
+                    self.__genre = key
+                    return False
+
 
 
     def __str__(self):
