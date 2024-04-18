@@ -3,6 +3,8 @@ import csv
 from book import Book
 
 
+ADMIN_PASS = "2130"
+
 
 # Removes book from books_list 
 def remove_book(books_lst, books_lib_path):
@@ -206,7 +208,7 @@ def load_books(books_lib_path, books_lst):
         
 
 
-# Management function in charge of 
+# Management function for the entire program
 def main(): 
 
     print("Starting the system...")
@@ -247,46 +249,46 @@ def main():
         user_selection = input("Enter your selection: ").strip()
 
 
-        match user_selection: 
-            case '1': 
-                print("-- Search for books --")
-                search_str = input("Enter search value: ")
-                search_books(books_lst, search_str)
 
-            case '2':
-                print("-- Borrow a book --")
-                borrow_book(books_lst)
+        # Evaluates user selection and executes task accordingly
+            
+        if user_selection == '1': 
+            print("-- Search for books --")
+            search_str = input("Enter search value: ")
+            search_books(books_lst, search_str)
 
-            case '2130':
-                admin = True
-                print_menu(main_menu, heading, l_menu, l_heading, admin)
+        elif user_selection == '2':
+            print("-- Borrow a book --")
+            borrow_book(books_lst)
 
-            case '3':
-                print("-- Return Book --")
-                return_book(books_lst)
+        elif user_selection == ADMIN_PASS:
+            admin = True
+            print_menu(main_menu, heading, l_menu, l_heading, admin)
 
-            case '4':
-                print("-- Add a book --")
-                add_book(books_lst, books_lib_path)
+        elif user_selection == '3':
+            print("-- Return Book --")
+            return_book(books_lst)
 
+        elif user_selection == '4' and admin == True:
+            print("-- Add a book --")
+            add_book(books_lst, books_lib_path)
 
-            case '5':
-                print("-- Remove a book --")
-                remove_book(books_lst, books_lib_path)
+        elif user_selection == '5' and admin == True:
+            print("-- Remove a book --")
+            remove_book(books_lst, books_lib_path)
 
-            case '6':
-                print("-- Pring book catalog --")
-                search_lst = books_lst
-                print_books(search_lst)
+        elif user_selection == '6' and admin == True:
+            print("-- Pring book catalog --")
+            search_lst = books_lst
+            print_books(search_lst)
 
+        elif user_selection == '0':
+            print(f"(Number of books saved to file: {save_books(books_lst, books_lib_path)})\n")
+            print("-- Exit the system -- \nBook catalog has been saved. \nGood Bye!\n")
+            exit()
 
-            case '0':
-                print(f"(Number of books saved to file: {save_books(books_lst, books_lib_path)})\n")
-                print("-- Exit the system -- \nBook catalog has been saved. \nGood Bye!\n")
-                exit()
-
-            case _:
-                print("Invalid option")
+        else: 
+            print("Invalid option")
 
 
 
