@@ -12,17 +12,39 @@ import os
 import csv
 from book import Book
 
-
+# constant variables declared for admin password, headings and menu options
 ADMIN_PASS = "2130"
+
+
+HEADING = "Reader's Guild Library - Main Menu"
+MAIN_MENU = {"1.": "Search for books", 
+                "2.": "Borrow a book",
+                "3.": "Return a book", 
+                "0.": "Exit the system"}
+
+
+L_HEADING = "Reader's Guild Library - Librarian Menu"
+L_MENU = {"1.": "Search for books", 
+                "2.": "Borrow a book",
+                "3.": "Return a book", 
+                "4.": "Add a book", 
+                "5.": "Remove a book", 
+                "6.": "Print catalog", 
+                "0.": "Exit the system"}
+
 
 
 # Removes book from books_list 
 def remove_book(books_lst, books_lib_path):
     isbn_srch = input("Enter the 13-digit ISBN (format 999-9999999999): ").strip()
 
+    # Passes isbn search string to search helper function and receives book index or -1 if not found
     foundB_index = find_book_by_isbn(books_lst, isbn_srch)
+
+    # Assigns indexed book object to variable
     foundBook = books_lst[foundB_index]
 
+    # condition statement to remove book if available, or state whether it hasnt been return, or if it is not found  
     if foundB_index == -1:
         print(f"No book found with isbn: {isbn_srch}")
         return
@@ -31,7 +53,6 @@ def remove_book(books_lst, books_lib_path):
         print(f"'{foundBook.get_title()}' with ISBN {foundBook.get_isbn()} has been borrowed and needs to be returned first.")
     
     else: 
-        
         books_lst.pop(foundB_index)
         print(f"'{foundBook.get_title()}' with ISBN {foundBook.get_isbn()} successfully removed.")
 
@@ -48,8 +69,11 @@ def add_book(books_lst, books_lib_path):
     genre = input("Enter genre: ")
     availability = True
 
+    # takes entered new book info and passes it to the object constructor in class
     validator = Book(isbn, title, author, genre, availability)
 
+
+    # validates whether book meets genre category requirement, and prints entered book info.
     while True: 
 
         if validator.validate_genre(genre) == True:
@@ -60,8 +84,10 @@ def add_book(books_lst, books_lib_path):
                   {validator.get_genre()} {validator.get_availability()}")
             break
         
+    # adds new book object to list of books 
     books_lst.append(validator)
 
+    # returns updated list of books and file path to save book helper function to save changes to file
     save_books(books_lst, books_lib_path)
 
 
@@ -182,21 +208,18 @@ def search_books(books_lst, search_str):
 
     
 # Displays main menu depending on authentication status
-def print_menu(main_menu, heading, l_menu, l_heading, admin):
+def print_menu(MAIN_MENU, HEADING, L_MENU, L_HEADING, admin):
 
-    # Condition statement displaying menu depending if user is 'admin' or not (regular user)
-   
-    print(l_heading if admin else heading)
+    
+    menu = L_MENU if admin else MAIN_MENU 
+
+    print(L_HEADING if admin else HEADING)
     print(f"{"="*34}")
    
-    if admin:  
-        for key, val in l_menu.items():
-            print(key, val)
-    
-    else:
-        for key, val in main_menu.items():
-            print(key, val)
-
+    for key, val in menu.items():
+        print(key, val)
+   
+    print()
 
 
 # Loads books from file into list
@@ -225,7 +248,7 @@ def load_books(books_lib_path, books_lst):
             bCount += 1
 
 
-        print(f"\nBook catalog has been loaded \n(Number of books loaded {bCount})")
+        print(f"Book catalog has been loaded \n(Number of books loaded {bCount})\n")
         return books_lst
 
         
@@ -253,31 +276,11 @@ def main():
     # Menu functionality iteration working as a global management selection display: 
     while True: 
         
-        heading = "Reader's Guild Library - Main Menu"
-        main_menu = {"1.": "Search for books", 
-                        "2.": "Borrow a book",
-                        "3.": "Return a book", 
-                        "0.": "Exit the system"}
-
-
-        l_heading = "Reader's Guild Library - Librarian Menu"
-        l_menu = {"1.": "Search for books", 
-                        "2.": "Borrow a book",
-                        "3.": "Return a book", 
-                        "4.": "Add a book", 
-                        "5.": "Remove a book", 
-                        "6.": "Print catalog", 
-                        "0.": "Exit the system"}
-        
-
-        print_menu(main_menu, heading, l_menu, l_heading, admin)
+        print_menu(MAIN_MENU, HEADING, L_MENU, L_HEADING, admin)
         
         user_selection = input("Enter your selection: ").strip()
 
-
-
-        # Evaluates user selection and executes task accordingly: 
-            
+        # Evaluates user selection and executes task accordingly:        
         if user_selection == '1': 
             print("-- Search for books --")
             search_str = input("Enter search value: ")
@@ -289,7 +292,7 @@ def main():
 
         elif user_selection == ADMIN_PASS:
             admin = True
-            print_menu(main_menu, heading, l_menu, l_heading, admin)
+            print_menu(MAIN_MENU, HEADING, L_MENU, L_HEADING, admin)
 
         elif user_selection == '3':
             print("-- Return Book --")
