@@ -87,7 +87,7 @@ class Book:
         #     self.__availability = False
 
 
-    # search method: includes search for title, author, and genre attributes" 
+    # search method: includes search for title, author, and genre attribute" 
     def match_search(self, search_str):
         search_lower = search_str.lower()       
         
@@ -95,10 +95,11 @@ class Book:
             search_lower in self.__title.lower() or
             search_lower in self.__author.lower()):
             return True
-        
+
+
         for key, val in Book.GENRE.items():
             if search_lower in val.lower():
-                if key == self.__genre:
+                if key == self.__genre:             # checks if key match current genre value of book 
                     return True
         
         return False
@@ -124,6 +125,6 @@ class Book:
             self.get_availability()
         )  
 
-# # CLASS TEST
+# TEST
 # genre1 = Book("978-0060513030", "Where the Sidewalk Ends", "Shel Silverstein", 9, False)
 # print(genre1.get_genre_name())

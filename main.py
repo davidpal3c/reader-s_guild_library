@@ -1,3 +1,13 @@
+# Reader's Guild Library program (library management system)
+# Program incorporating library management functionality with features:
+# Search book, Borrow book, Return book, Add book (to catalog), Remove book, Print Catalog, and i/o file handling. 
+# The program incorporates a class constructor to generate book objects, handle functionality through the given methods, 
+# and construct book objects with attributes used such as: isbn, title, author, genre, and availability. 
+# books.py and books.csv are included along side with the main program file (main.py)
+# Date: 2024-03-27
+
+
+
 import os
 import csv
 from book import Book
@@ -26,6 +36,7 @@ def remove_book(books_lst, books_lib_path):
         print(f"'{foundBook.get_title()}' with ISBN {foundBook.get_isbn()} successfully removed.")
 
     save_books(books_lst, books_lib_path)
+
 
 
 # Adds a book to list, validates genre input
@@ -59,6 +70,8 @@ def save_books(books_lst, books_lib_path):
     
     write_lst = []
     countB = 0
+
+    # Takes attribute values for each book object and adds them to list line by line
     for book in books_lst:
         isbn = book.get_isbn()
         title = book.get_title()
@@ -72,7 +85,7 @@ def save_books(books_lst, books_lib_path):
         # lineW = ','.join(map(str, line))
         write_lst.append(line)
 
-
+    # Opens file in write mode, and re-writes row by row from the new 'updated' list
     with open(books_lib_path, 'w', newline="") as lib_file:
         csv_writer = csv.writer(lib_file)
 
@@ -88,12 +101,14 @@ def return_book(books_lst):
 
     foundB_index = find_book_by_isbn(books_lst, isbn_srch)
     
+    # Uses index value check if books is found 
     if foundB_index == -1:
         print(f"No book found with isbn: {isbn_srch}")
         return
 
     foundBook = books_lst[foundB_index]
 
+    # Checks availability and calls return_it() if 'borrowed', to change book instance availability to True (Returned/Available)
     if foundBook.get_availability() == "Borrowed":
         foundBook.return_it()
         print(f"'{foundBook.get_title()}' with ISBN {isbn_srch} was successfully returned")
@@ -118,6 +133,7 @@ def borrow_book(books_lst):
     # passes list of books and searc criteria to find_book_by_isbn(), and assigns returned index to variable
     foundB_index = find_book_by_isbn(books_lst, isbn_srch)
     
+    # Uses index value check if books is found 
     if foundB_index == -1:
         print(f"No book found with isbn: {isbn_srch}")
         return
@@ -125,7 +141,7 @@ def borrow_book(books_lst):
     # Stores Book by index into variable
     foundBook = books_lst[foundB_index]
 
-    # Checks availability and calls borrow_it() if available
+    # Checks availability and calls borrow_it() if available, to change book instance availability to False (book borrowed)
     if foundBook.get_availability() == "Available":
         foundBook.borrow_it()
         print(f"'{foundBook.get_title()}' with ISBN {foundBook.get_isbn()} successfully borrowed.")
@@ -141,11 +157,12 @@ def print_books(search_lst):
         print("No books found matching the search criteria.")
         return
     
-
+    # Format strings for catalog display
     print("{:15s} {:26s} {:27s} {:21s} {:s}".format("ISBN", "Title",
     "Author", "Genre", "Availability"))
     print("{:15s} {:26s} {:27s} {:21s} {:s}".format("-"*15,"-"*26, "-"*27, "-"*21, "-"*12))
 
+    # Uses str format in book class to display each object
     for book in search_lst:
         book_str = str(book)
         print(book_str)
@@ -155,6 +172,8 @@ def print_books(search_lst):
 def search_books(books_lst, search_str):
     
     search_lst = []
+
+    # Matches search string with every book object using search method inside of class
     for book in books_lst:
         if book.match_search(search_str):
             search_lst.append(book)
@@ -164,29 +183,32 @@ def search_books(books_lst, search_str):
     
 # Displays main menu depending on authentication status
 def print_menu(main_menu, heading, l_menu, l_heading, admin):
-            
+
+    # Condition statement displaying menu depending if user is 'admin' or not (regular user)
+   
+    print(l_heading if admin else heading)
+    print(f"{"="*34}")
+   
     if admin:  
-        print(f"\n{l_heading}")
-        print(f"{"="*34}")
         for key, val in l_menu.items():
             print(key, val)
     
     else:
-        print(f"\n{heading}")
-        print(f"{"="*34}")
         for key, val in main_menu.items():
             print(key, val)
-
 
 
 
 # Loads books from file into list
 def load_books(books_lib_path, books_lst):
     
+    # Opens file in read mode
     with open(books_lib_path, 'r') as lib_file:
         csv_reader = csv.reader(lib_file)
         
         bCount = 0
+
+        # Parses value by index per line, and assings to local variable(s) for each book
         for line in csv_reader:
             isbn = line[0]
             title = line[1]
@@ -194,13 +216,14 @@ def load_books(books_lib_path, books_lst):
             genre = int(line[3])
             availability = line[4]
 
-            # generates book object with indexed values of each line as attributes
+            # generates book object with indexed values in variables for each line (book) as attributes
             book = Book(isbn, title, author, genre, availability)
 
-            # adds book objects to books list 
+            # adds book object to books list 
             books_lst.append(book)
 
             bCount += 1
+
 
         print(f"\nBook catalog has been loaded \n(Number of books loaded {bCount})")
         return books_lst
@@ -224,8 +247,10 @@ def main():
     books_lst = []
     load_books(books_lib_path, books_lst)
 
+
     admin = False
 
+    # Menu functionality iteration working as a global management selection display: 
     while True: 
         
         heading = "Reader's Guild Library - Main Menu"
@@ -244,13 +269,14 @@ def main():
                         "6.": "Print catalog", 
                         "0.": "Exit the system"}
         
+
         print_menu(main_menu, heading, l_menu, l_heading, admin)
         
         user_selection = input("Enter your selection: ").strip()
 
 
 
-        # Evaluates user selection and executes task accordingly
+        # Evaluates user selection and executes task accordingly: 
             
         if user_selection == '1': 
             print("-- Search for books --")
