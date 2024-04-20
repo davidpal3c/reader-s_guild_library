@@ -80,8 +80,7 @@ def add_book(books_lst, books_lib_path):
             genre = input("Invalid genre. Choices are: \nRomance, Mystery, Science Fiction, Thriller, \nYoung Adult, Children's Fiction, Self-help,\nFantasy, Historical Fiction, Poetry \nEnter genre: ")
         
         else: 
-            print(f"'{validator.get_title()}' with ISBN {validator.get_isbn()} successfully added.\
-                  {validator.get_genre()} {validator.get_availability()}")
+            print(f"'{validator.get_title()}' with ISBN {validator.get_isbn()} successfully added.")
             break
         
     # adds new book object to list of books 
@@ -176,7 +175,7 @@ def borrow_book(books_lst):
         print(f"'{foundBook.get_title()}' with ISBN {foundBook.get_isbn()} is not currently available.")
 
 
-# Formats string display and prints catalogue
+# Formats string to display the catalogue of books
 def print_books(search_lst):
     
     if not search_lst:
@@ -213,7 +212,7 @@ def print_menu(MAIN_MENU, HEADING, L_MENU, L_HEADING, admin):
     
     menu = L_MENU if admin else MAIN_MENU 
 
-    print(L_HEADING if admin else HEADING)
+    print(f"\n{L_HEADING if admin else HEADING}")
     print(f"{"="*34}")
    
     for key, val in menu.items():
@@ -307,7 +306,7 @@ def main():
             remove_book(books_lst, books_lib_path)
 
         elif user_selection == '6' and admin == True:
-            print("-- Pring book catalog --")
+            print("-- Print book catalog --")
             search_lst = books_lst
             print_books(search_lst)
 
